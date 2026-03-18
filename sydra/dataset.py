@@ -55,7 +55,13 @@ class SydraDataset(torch.utils.data.Dataset):
             for signal_file_name in signal_file_names
         ]
 
-        x = torch.stack(x, dim=0)
+        # Backward-compatible support for both signal storage layouts:
+        # - One file per microphone array, with shape (n_mics, n_samples)
+        # - One file per microphone, with shape (1, n_samples)
+        if len(x) == 1 and x[0].shape[0] > 1:
+            x = x[0].unsqueeze(0)
+        else:
+            x = torch.stack(x, dim=0)
         # x.shape == (n_arrays, n_array, n_signal)
 
         # 1.1. (Optional) Trim signals
