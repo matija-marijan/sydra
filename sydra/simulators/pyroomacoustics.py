@@ -26,7 +26,7 @@ def pyroomacoustics_simulator(config):
         numpy.array: matrix containing one microphone signal per row
     """
 
-    sr = float(config["sr"])
+    sr = config["sr"]
 
     snr_in_db = config["snr_in_db"]
 
