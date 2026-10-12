@@ -164,6 +164,8 @@ def _create_speech_config(dataset_config):
         path = Path(dataset_config["sources"]["speech_signals_dir"])
         dataset_config["sources"]["speech_samples"] = [
             str(p) for p in path.rglob("*.wav")
+        ] + [
+            str(p) for p in path.rglob("*.flac")
         ]
 
 
