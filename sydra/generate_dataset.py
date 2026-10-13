@@ -118,6 +118,10 @@ def generate_sample(base_config=None, output_dir=None, random=True):
     elif config["acoustic_simulator"] == "gpuRIR":
         signals = gpu_rir_simulator(config)[0]
     
+    # TRIM SIGNALS TO TARGET DURATION
+    target_samples = int(config["signal_duration_in_seconds"] * config["sr"])
+    signals = signals[:, :, :target_samples]
+    
     # 3. Save signals on a provided output_dir
     if output_dir is not None:
         if "dataset_dir" in base_config and base_config["dataset_dir"] is not None:
